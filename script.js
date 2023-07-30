@@ -1,6 +1,6 @@
-const API_KEY="d0eefc196bf84b019bf55f4ab67cb80c";
-const url="https://newsapi.org/v2/everything?q=";
-
+const API_KEY="958cafab43581fa76158641b5906ec8c";
+// const url="https://newsapi.org/v2/everything?q=";
+const url = 'https://gnews.io/api/v4/search?q=';
 
 
 window.addEventListener("load", () => fetchNews("India"));
@@ -10,8 +10,8 @@ function reload() {
 }
 
 async function fetchNews(query) {
-    const res = await fetch(`${url}${query}&apiKey=${API_KEY}`);
-    
+    const res = await fetch(`${url}${query}&max=20&apikey=${API_KEY}`);
+    console.log(res)
     const data = await res.json();
     bindData(data.articles);
 }
@@ -23,7 +23,7 @@ function bindData(articles) {
     cardsContainer.innerHTML = "";
 
     articles.forEach((article) => {
-        if (!article.urlToImage) return;
+        if (!article.image) return;
         const cardClone = newsCardTemplate.content.cloneNode(true);
         fillDataInCard(cardClone, article);
         cardsContainer.appendChild(cardClone);
@@ -36,7 +36,7 @@ function fillDataInCard(cardClone, article) {
     const newsSource = cardClone.querySelector("#news-source");
     const newsDesc = cardClone.querySelector("#news-desc");
 
-    newsImg.src = article.urlToImage;
+    newsImg.src = article.image;
     newsTitle.innerHTML = article.title;
     newsDesc.innerHTML = article.description;
 
